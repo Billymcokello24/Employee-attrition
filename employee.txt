@@ -1,0 +1,80 @@
+library(readxl)
+library(dplyr)
+library(ggplot2)
+
+# Load the employee data from the Excel file
+employees_data <- read_excel("Employee Data Formatted - GBUS 738 Fall 2023 (1100 Records) f (1).xlsx")
+
+# Display the first few rows of the dataset
+head(employees_data)
+
+# Summary statistics of the dataset
+summary(employees_data)
+
+# Display information about the dataset
+str(employees_data)
+
+# Check for missing values
+empty <- colSums(is.na(employees_data))
+print(empty)  # Check for empty columns
+
+# Distribution of employees who left or stayed
+left_company_counts <- table(employees_data$left_company)
+labels <- c("No", "Yes")
+pie(left_company_counts, labels = labels, main = "Distribution of Employees (Left Company)")
+
+# Group by 'left_company' and calculate mean salary
+employee <- employees_data %>%
+  group_by(left_company) %>%
+  summarize(mean_salary = mean(salary, na.rm = TRUE))
+
+print(employee)
+
+# Plot job level vs. salary
+ggplot(employees_data, aes(x = job_level, y = salary)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Job Level vs. Salary", x = "Job Level", y = "Salary")
+
+# Plot salary distribution by 'left_company'
+ggplot(employees_data, aes(x = salary, fill = as.factor(left_company))) +
+  geom_histogram(bins = 20, alpha = 0.7) +
+  facet_grid(. ~ left_company) +
+  labs(title = "Employee Salary Distribution", x = "Salary", y = "Employees") +
+  theme_minimal()
+
+# Plot weekly_hours distribution by 'left_company'
+ggplot(employees_data, aes(x = weekly_hours, fill = as.factor(left_company))) +
+  geom_histogram(bins = 20, alpha = 0.7) +
+  facet_grid(. ~ left_company) +
+  labs(title = "Employee Weekly Hours Distribution", x = "Weekly Hours", y = "Employees") +
+  theme_minimal()
+
+# Plot miles_from_home distribution by 'left_company'
+ggplot(employees_data, aes(x = miles_from_home, fill = as.factor(left_company))) +
+  geom_histogram(bins = 20, alpha = 0.7) +
+  facet_grid(. ~ left_company) +
+  labs(title = "Miles from Home Distribution", x = "Miles from Home", y = "Employees") +
+  theme_minimal()
+
+# Plot business_travel distribution by 'left_company'
+ggplot(employees_data, aes(x = business_travel, fill = as.factor(left_company))) +
+  geom_bar() +
+  labs(title = "Business Travel Distribution", x = "Business Travel", y = "Employees") +
+  theme_minimal()
+
+# Plot yrs_since_promotion distribution by 'left_company'
+ggplot(employees_data, aes(x = yrs_since_promotion, fill = as.factor(left_company))) +
+  geom_histogram(bins = 20, alpha = 0.7) +
+  facet_grid(. ~ left_company) +
+  labs(title = "Years Since Promotion Distribution", x = "Years Since Promotion", y = "Employees") +
+  theme_minimal()
+
+# Plot job_level vs. salary
+ggplot(employees_data, aes(x = factor(job_level), y = salary)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Job Level vs. Salary", x = "Job Level", y = "Salary")
+
+# Plot weekly_hours vs. salary
+ggplot(employees_data, aes(x = weekly_hours, y = salary)) +
+  geom_point() +
+  labs(title = "Weekly Hours vs. Salary", x = "Weekly Hours", y = "Salary")
