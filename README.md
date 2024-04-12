@@ -53,6 +53,6 @@ Future work should involve predictive modeling to forecast employee attrition ac
 
 Feel free to explore the detailed analysis in the provided notebooks and delve into the insights obtained from this study.
 
-For any inquiries or feedback, please contact [Your Name] at [Your Email].
+For any inquiries or feedback, please contact me at billyochiengokello@gmail.com 
 
 Happy exploring and analyzing!
